@@ -36,21 +36,21 @@ public class Storage {
     }
 
     public void createNewStorage(int size) {
-        Map<String, Integer> storageMap = new HashMap<>();
+        this.storageMap = new HashMap<>();
     }
 
     public void addNewItem(String item, int value){
         if (getCount() == size) System.out.println("Хранилище полностью заполнено. Невозможно добавить.");
         else if (getCount()+value > size) {
-            System.out.print("Количество превышает размер хранилища. Вы можете \"отменить\" или \"добавить\" " +
-                            "количество в размере " + (size-getCount()) + "\nЧто выбираете: ");
+            System.out.print("Количество превышает размер хранилища. Вы можете \"отменить\"/\"cancel\" или " +
+                    "\"добавить\"/\"add\" количество в размере " + (size-getCount()) + "\nЧто выбираете: ");
             while (true){
                 command = sc.nextLine();
-                if (command.equals("отменить")) {
+                if (command.equals("отменить") || command.equals("cancel")) {
                     System.out.println("Добавление отменено.");
                     break;
                 }
-                else if (command.equals("добавить")) {
+                else if (command.equals("добавить") || command.equals("add")) {
                     storageMap.put(item, size-getCount());
                     System.out.println("Позиция успешно добавлена/обновлена.");
                     break;
@@ -64,12 +64,13 @@ public class Storage {
             storageMap.put(item, value);
             System.out.println("Позиция успешно добавлена/обновлена.");
         }
+
     }
 
     public void getMap(){
         if (storageMap.isEmpty()) System.out.println("Хранилище пусто.");
         else{
-            for (Map.Entry<String, Integer> pair : storageMap.entrySet())
+            for (Map.Entry<String, Integer> pair : storageMap.entrySet()) //перебираем все ключ:значения мапы
             {
                 String key = pair.getKey();
                 int value = pair.getValue();
@@ -91,7 +92,7 @@ public class Storage {
         storageMap.remove(item);
     }
 
-    public int getCount(){
+    public int getCount(){ //перебирает все значение позиций и возвращет их сумму
         int value = 0;
         for (Map.Entry<String, Integer> pair : storageMap.entrySet())
         {

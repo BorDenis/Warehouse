@@ -1,25 +1,26 @@
 package WH;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Console {
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String command, key;
         int exitFlag = 0, size, value;
         Storage storage = new Storage();
 
-        System.out.print("""
-                Вас приветствует Хранилище 1.0
+        System.out.println("""
+                Вас приветствует Хранилище 1.1
                 Введите "помощь", что бы получить список команд.
                 Активно пустое хранилище.
-                Если хотите начать работу, с уже полузаполненым хранилищем, введите "образец" или "example".
-                Жду указаний:\s""");
+                Если хотите начать работу, с уже полузаполненым хранилищем, введите "образец" или "example".""");
 
 
 
         while (exitFlag == 0) {
+            System.out.print("Жду указаний: ");
             command = sc.nextLine();
             switch (command){
                 case "помощь", "help":
@@ -35,21 +36,22 @@ public class Console {
                             список или list     - отобразить все позиции хранилища
                             выход или exit      - выход из консоли""");
                     break;
-                case "образец", "example":
+                case "образец", "example": //начать работу, с уже полузаполненым хранилищем
                     storage = new Storage(command);
                     System.out.println("Хранилище созданно. Размер: " + storage.getStoreSize());
                     break;
-                case "новое", "new":
+                case "новое", "new": //создать новое пустое хранилище, с возможностью задать размер
                     System.out.print("Задайте размер: ");
                     size = sc.nextInt();
+                    sc.nextLine(); //отчистка символа перевода строки
                     storage = new Storage(size);
                     System.out.println("Создано новое хранилище. Размер: " + size);
                     break;
-                case "отчистить", "clear":
+                case "отчистить", "clear": //удалить все позиции из текущего хранилища
                     storage.deleteAllItems();
                     System.out.println("Хранилище успешно отчищенно.");
                     break;
-                case "удалить", "delete":
+                case "удалить", "delete": //удалить позицию
                     System.out.print("Введите название позиции: ");
                     key = sc.nextLine();
                     if (storage.find(key) == null) System.out.println(key + " - такой позиции нет.");
@@ -58,13 +60,15 @@ public class Console {
                         System.out.println("Позиция успешно удалена.");
                     }
                     break;
-                case "добавить", "add":
+                case "добавить", "add": //завести новую позицию или изменить количество существующей
                     System.out.print("Введите название позиции и количество, через пробел: ");
                     key = sc.next();
                     value = sc.nextInt();
+                    sc.nextLine(); //отчистка символа перевода строки
                     storage.addNewItem(key, value);
+
                     break;
-                case "найти", "find":
+                case "найти", "find": //вывод позиции и его количество
                     System.out.print("Введите название позиции: ");
                     key = sc.nextLine();
                     if (storage.find(key) == null) System.out.println(key + " - такой позиции нет.");
@@ -72,16 +76,17 @@ public class Console {
                         System.out.println(key + " " + storage.find(key));
                     }
                     break;
-                case "статус", "status":
+                case "статус", "status": //отобразить заполненость хранилища
                     System.out.printf("Хранилище заполнено на: %d/%d \n", storage.getCount(), storage.getStoreSize());
                     break;
-                case "список", "list":
+                case "список", "list": //отобразить все позиции хранилища
                     storage.getMap();
                     break;
-                case "выход", "exit":
+                case "выход", "exit": //выход из консоли
                     System.out.println("Выход из консоли. Надеюсь, что скоро увидимся!");
                     exitFlag = 1;
                     break;
+
                 default:
                     System.out.print("Неверная команда. Введите заного: ");
             }
